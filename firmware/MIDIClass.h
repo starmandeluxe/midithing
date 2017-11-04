@@ -84,6 +84,7 @@ public:
   void PrintNotes(void);
 #endif
   byte CheckRepeat(byte pitch);
+  void playVelocity(int dNum, byte velocity);
   void playNote(byte note, byte plvelocity);
   void playNoteOff(void);
   void LearnThis(byte channel, byte pitch, byte velocity);

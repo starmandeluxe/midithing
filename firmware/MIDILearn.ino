@@ -144,10 +144,10 @@ byte CalProcessNote(byte channel, byte pitch, byte velocity)
       SetModeMIDI(PERCTRIG);
       return (1);
       break;
-      /*case 6:
-         SetModeMIDI(PERCGATE);
-         break;
-       */
+    case 6:
+      SetModeMIDI(PERCGATE);
+      return (1);
+      break;
     }
   }
   return (0);

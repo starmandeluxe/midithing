@@ -58,6 +58,20 @@ void HandleNoteOn(byte channel, byte pitch, byte velocity)
   if (MIDImode == PERCTRIG && channel == 10 && velocity > 0) {
     // Play percussion
     gates[MIDIactive].setBlink(TRIGPERCUSSION, 1, 1); // Play trigger
+    int dacnum = 0;
+    
+    switch (MIDIactive) {
+      case 5:
+        dacnum = 0;
+      case 6:
+        dacnum = 1;
+      case 7:
+        dacnum = 2;
+      case 8:
+        dacnum = 3;
+    }
+    
+    ChanMIDI[0].playVelocity(dacnum, velocity);
     blink.setBlink(100, 1, 1, PINLED);  // Blink once every Note ON (not in CAL/LEARN mode)
     return;
   }

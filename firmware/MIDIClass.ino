@@ -184,6 +184,26 @@ byte MIDICV::CheckRepeat(byte pitch)
 }
 
 // Play Notes to DAC and pin outputs
+void MIDICV::playVelocity(int dNum, byte plvelocity)
+{
+  unsigned int voltage = 0;
+
+  if (VelDAC != NULL) {
+    voltage = VelDAC->linealConvert(plvelocity);
+    if (voltage > 4095) {
+      voltage = 4095;
+    }
+    sendvaltoDAC(dNum, voltage);
+  }
+
+  if (plvelocity == 0) { //NOTE OFF
+    playNoteOff();
+  } else if (pinGATE != -1) {
+    digitalWrite(pinGATE, HIGH);
+  }
+}
+
+// Play Notes to DAC and pin outputs
 void MIDICV::playNote(byte note, byte plvelocity)
 {
   unsigned int voltage = 0;
@@ -278,14 +298,6 @@ int CheckActiveMIDI(byte channel, byte pitch)
 int PercussionNoteGate(byte pitch)
 {
   switch (pitch) {
-  case 36:
-    return (0);
-  case 38:
-    return (1);
-  case 42:
-    return (2);
-  case 45:
-    return (3);
   case 47:
     return (5);
   case 48:
@@ -468,6 +480,12 @@ void SetModeMIDI(int mode)
     ChanMIDI[3].midiChannel = 4;
     break;
   case PERCTRIG:
+    MAXNumMIDI = 1;
+    ChanMIDI[0].PitchDAC = &DACConv[0];
+    ChanMIDI[0].VelDAC = &DACConv[1];
+    ChanMIDI[0].BendDAC = &DACConv[2];
+    ChanMIDI[0].ModulDAC = &DACConv[3];
+    ChanMIDI[0].midiChannel = 10;
     break;
   case PERCGATE:
     break;
