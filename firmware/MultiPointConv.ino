@@ -23,7 +23,10 @@
 // See http://creativecommons.org/licenses/MIT/ for more information.
 //
 // -----------------------------------------------------------------------------
-//
+// V2 - 2018
+// Author: Alberto Navarro (albertonafu@gmail.com) 
+// Enhacements, new functions, new modes, usability, user interface and bug fixings.
+// -----------------------------------------------------------------------------
 
 // Make conversion interpolating between points
 unsigned int MultiPointConv::intervalConvert(int inp)
@@ -76,8 +79,13 @@ byte MultiPointConv::Processnote(byte channel, byte pitch, byte velocity)
   if (val < 0) {
     return (0);
   }
+  
   if (val > 119) {
     val = 119;  // max 10 oct. = 120 notes
+  }
+
+  if (val == 1) {
+    return (0);
   }
 
   // Look for interval
